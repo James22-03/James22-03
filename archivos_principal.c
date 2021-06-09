@@ -1,19 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+//Variables que reciben los argumentos el linea de comandos
 char *nombre;
 char *nombre2;
-int existe_archivo(char *nombre_arch);
-int crear_archivo(char *nombre_arch);
-void liberar();
-void insertar();
-void imprimir();
-void impfile(FILE *ptrArchivo, char *nombre_arch);
-int vacia();
-void cerrar_archivo(FILE *ptrArchivo, char *nombre_arch);
-FILE *abrir_Archivo_solo_Lectura(char *nombre_arch);
-FILE *abrir_Archivo_lectura_escritura(char *nombre_arch);
 
+//Declaración de funciones
+int existe_archivo(char *nombre_arch); //Comprueba si los archivos existen.
+int crear_archivo(char *nombre_arch); //Crear un archivo en caso de no existir.
+void liberar(); //Libera 
+void insertar(); //Inserta las cdenas en la lista
+void imprimir(); //Ordena alfabeticamente cada palabra y las imprime.
+int vacia(); //Comprueba si la lista esta vacia
+void cerrar_archivo(FILE *ptrArchivo, char *nombre_arch); //Cierra un fichero una vez terminada su utilidad
+FILE *abrir_Archivo_solo_Lectura(char *nombre_arch); //Abre un archivo de solo lectura qie contine la lista de cadenas sin ordenar
+FILE *abrir_Archivo_lectura_escritura(char *nombre_arch); //Abre/crea un archivo para insertar la lista ordenada
+
+//Estructura para insertar elementos a la lista
 struct nodo {
 	char cadena[50];
 	struct nodo *sig;
@@ -22,13 +26,13 @@ struct nodo {
 struct nodo *raiz=NULL;
 
 int main (int argc, char *argv[]){
-int v[100],n,j,temp;
 FILE *ptrCf = NULL,*g = NULL;
+//Argumentos para los archivos de entrada y salida
 nombre=argv[1];
 nombre2=argv[2];
+
 int existe_arch = 0,i;
 existe_arch = existe_archivo(nombre);
-
 if(existe_arch){
 	printf("---------------------------------------------------------------\n");
 	printf("\tEl archivo -> %s <- YA EXISTE.\n", nombre);
@@ -68,18 +72,20 @@ if(existe_arch){
 		printf("\tArchivo -> %s <- Abierto Correctamente.\n", nombre);			
 		printf("****************************************************************\n");		
 		printf("----------------------------> ESCRITURA <----------------------------------\n");
+		//Creación de la lista en el archivo de entrada
 		fprintf(ptrCf,"Me entere que estaban buscando personal a traves del grupo embedidos32.");	
 		}	
 		printf("\tEscritura Terminada.\n");
 		cerrar_archivo(ptrCf, nombre);
 		}
-		ptrCf = abrir_Archivo_lectura_escritura(nombre2);
+		ptrCf = abrir_Archivo_lectura_escritura(nombre2); //Es necesario que el archivo exista
 		if(ptrCf == NULL){
 		printf("\tEl archivo -> %s <- NO pudo Abrirse.\n", nombre2);
 		}
 		else{
 		printf("\tArchivo -> %s <- Abierto Correctamente.\n", nombre2);		
 		printf("----------------------------> ESCRITURA <----------------------------------\n");
+		//Ordenamiento de la lista en el archivo de salida
 		insertar("Me");
 		insertar("entere");
 		insertar("que");
@@ -91,8 +97,9 @@ if(existe_arch){
 		insertar("del");
 		insertar("grupo");
 		insertar("embedidos32.");
-		imprimir();
 		
+		imprimir();
+		//Impresión de la lista ordenada en pantalla
 		struct nodo *reco=raiz;
 		while (reco != NULL){
 		fprintf(ptrCf,"%s\n",reco->cadena);
