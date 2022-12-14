@@ -1,0 +1,19 @@
+{
+    "personas": [
+        {
+            "id": 1001,
+            "nombre": "Edward Ortiz",
+            "email": "edward@mail.co"
+        },
+        {
+            "id": 1002,
+            "nombre": "Daniela Ortiz",
+            "email": "daniela@mail.co"
+        },
+        {
+            "id": 1003,
+            "nombre": "Germán Ortiz",
+            "email": "german@mail.co"
+        }
+    ]
+}
